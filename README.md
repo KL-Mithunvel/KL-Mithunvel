@@ -10,4 +10,4 @@
 - 📫 How to reach me: klmithunvel@outlook.com
 
 # stats 📊:
-![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=gruvbox)
+![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=codeSTACKr)
