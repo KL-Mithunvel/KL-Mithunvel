@@ -1,5 +1,4 @@
-<head><title>klm</title></head>
-<h1><strong>Hello world!!!, I am Mithunvel KL 🤠</strong></h1>
+<h1><em>Hello world!!!, I am Mithunvel KL 🤠</em></h1>
 
 - 🔭 I’m currently working on digital twinning.
 - 🌱 I’m currently learning ...
