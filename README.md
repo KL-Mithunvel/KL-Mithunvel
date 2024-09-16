@@ -13,3 +13,10 @@
    ![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=cobalt)
 
    ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=KL-Mithunvel&layout=compact)
+
+
+
+<div align="center"> 
+<a href="https://github.com/anuraghazra/github-readme-stats#gh-light-mode-only">
+<img height=259 src="https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/top-langs/?username=Mithunvel&layout=compact&langs_count=12&hide_border=true&role=owner,collaborator&theme=default#gh-light-mode-only" alt="Rick Staa's Language stats" />
+</a>
