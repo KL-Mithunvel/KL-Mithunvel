@@ -10,6 +10,6 @@
 - 💬 Ask me about ...--->
 
 # stats 📊:
-![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=codeSTACKr)
+![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=onedark)
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra&layout=donut-vertical)](https://github.com/anuraghazra/github-readme-stats)
