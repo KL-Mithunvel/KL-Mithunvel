@@ -2,11 +2,11 @@
 
 ## Digital craftsman (Progammer, designer, creator, Student.)
 
-- 🔭 I’m currently working on digital twinning.
+- 🔭 I’m currently working on making an enigma with fpga.
 - 🌱 I’m currently learning Red hat.
 - 📫 How to reach me: klmithunvel@outlook.com
+- 🤔 I’m looking for help with Verilog 
  <!---👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
 - 💬 Ask me about ...--->
 
 # stats 📊:
