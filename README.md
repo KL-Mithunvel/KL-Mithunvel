@@ -17,7 +17,7 @@
 --->
 
 
-<a href="https://github.com/qwerty541#gh-dark-mode-only">
+
   <table cellspacing="0" cellpadding="0">
     <tr>
       <td style="border: 0;">
