@@ -1,7 +1,9 @@
 # **Hello world!!!, I am** ***Mithunvel KL***🤠
 ## Digital craftsman (Progammer, designer, creator, Student.)
 
-- 🔭 I’m currently working on making an enigma with fpga.
+- 🔭 I’m currently working on:
+   -  making an enigma with fpga.
+   -  digital twinning.
 - 🌱 I’m currently learning Red hat.
 - 📫 How to reach me: klmithunvel@outlook.com
 - 🤔 I’m looking for help with Verilog 
