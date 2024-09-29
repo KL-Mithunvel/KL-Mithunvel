@@ -10,9 +10,6 @@
 > Most of my work are open source and feel free to use them and contact me if any help needed 😃
 # stats 📊:
  ![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=cobalt)
- <img
-          src="https://github-readme-stats-steel-omega.vercel.app/api/top-langs/?username=KL-Mithunvel&layout=pie&icon_color=2d77dc&title_color=2d77dc&text_color=ffffff&bg_color=0d1117&hide_border=true&langs_count=10&size_weight=0.5&count_weight=0.5&custom_title=Langs%20distribution%20in%20my%20repos#gh-dark-mode-only"
-          alt="My Language stats"
-          width="280"
-        />
+ ![My GitHub stats](https://github-readme-stats-steel-omega.vercel.app/api/top-langs/?username=KL-Mithunvel&layout=pie&icon_color=2d77dc&title_color=2d77dc&text_color=ffffff&bg_color=0d1117&hide_border=true&langs_count=10&size_weight=0.5&count_weight=0.5&custom_title=Langs%20distribution%20in%20my%20repos#gh-dark-mode-only)
+
 ---
