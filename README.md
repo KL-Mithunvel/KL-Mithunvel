@@ -8,7 +8,7 @@
 - 🤔 I’m looking for help with Verilog 
  <!---👯 I’m looking to collaborate on ...
 - 💬 Ask me about ...--->
-### Most of my work are open source and feel free to use them and contact me if any help needed 😃
+> Most of my work are open source and feel free to use them and contact me if any help needed 😃
 # stats 📊:
    <!--- ![My GitHub stats](https://github-readme-stats.vercel.app/api?username=KL-Mithunvel&show_icons=true&theme=cobalt)
 
