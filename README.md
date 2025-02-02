@@ -5,7 +5,9 @@
    -  making an enigma with fpga.
    -  digital twinning.
 - 🌱 I’m currently learning Red hat.
-- 📫 How to reach me: klmithunvel@outlook.com
+- 📫 How to reach me:
+    - klmithunvel@outlook.com
+    - [LinkedIn](https://www.linkedin.com/in/mithunvel-k-l-1b5845287/)
 - 🤔 I’m looking for help with Verilog 
  <!---👯 I’m looking to collaborate on ...
 - 💬 Ask me about ...--->
