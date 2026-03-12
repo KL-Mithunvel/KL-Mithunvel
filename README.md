@@ -21,13 +21,13 @@
 
 </div>
 
-    <td><code>🔑 (scopeless)</code> <code>read:org (optional)</code> <code>read:user (optional)</code> <code>read:packages (optional)</code> <code>repo (optional)</code></td>
-  
-  <tr>
-    <td colspan="2" align="center">
-      <details open><summary>Full year calendar</summary><img src="https://github.com/lowlighter/metrics/blob/examples/metrics.plugin.isocalendar.fullyear.svg" alt=""></img></details>
-      <details><summary>Half year calendar</summary><img src="https://github.com/lowlighter/metrics/blob/examples/metrics.plugin.isocalendar.svg" alt=""></img></details>
-      <img width="900" height="1" alt="">
-    </td>
+<details open>
+<summary>Full year calendar</summary>
+<img src="https://github.com/lowlighter/metrics?username=KL-Mithunvel&template=classic&isocalendar=1&isocalendar.duration=full-year" alt="Full year contribution calendar"/>
+</details>
 
+<details>
+<summary>Half year calendar</summary>
+<img src="https://github.com/lowlighter/metrics?username=KL-Mithunvel&template=classic&isocalendar=1" alt="Half year contribution calendar"/>
+</details>
 ---
