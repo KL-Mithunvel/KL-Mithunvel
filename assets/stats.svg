@@ -1,0 +1,25 @@
+<svg width="495" height="328" viewBox="0 0 495 328" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .card-bg { fill: #0d1117; }
+    .title { font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #2d77dc; }
+    .stat-label { font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: #a1a1aa; }
+    .stat-value { font: 600 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffff; }
+  </style>
+  <rect x="0.5" y="0.5" rx="8" width="494" height="327" class="card-bg" stroke="none"/>
+  <text x="25" y="35" class="title">KL-Mithunvel's GitHub Stats</text>
+  
+    <text x="25" y="70" class="stat-label">Total Stars:</text>
+    <text x="470" y="70" text-anchor="end" class="stat-value">71</text>
+    <text x="25" y="104" class="stat-label">Total Commits:</text>
+    <text x="470" y="104" text-anchor="end" class="stat-value">824</text>
+    <text x="25" y="138" class="stat-label">Total PRs:</text>
+    <text x="470" y="138" text-anchor="end" class="stat-value">37</text>
+    <text x="25" y="172" class="stat-label">Total Issues:</text>
+    <text x="470" y="172" text-anchor="end" class="stat-value">9</text>
+    <text x="25" y="206" class="stat-label">PR Reviews:</text>
+    <text x="470" y="206" text-anchor="end" class="stat-value">1</text>
+    <text x="25" y="240" class="stat-label">Public Repos:</text>
+    <text x="470" y="240" text-anchor="end" class="stat-value">35</text>
+    <text x="25" y="274" class="stat-label">Followers:</text>
+    <text x="470" y="274" text-anchor="end" class="stat-value">10</text>
+</svg>
