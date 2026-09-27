@@ -39,8 +39,15 @@ LANGUAGE_COLORS = {
     "CMake": "#DA3434",
     "Makefile": "#427819",
     "Dockerfile": "#384d54",
+    "Vue": "#41b883",
+    "Batchfile": "#C1F12E",
+    "PowerShell": "#012456",
+    "Tcl": "#e4cc98",
+    "Java": "#b07219",
 }
 FALLBACK_COLOR = "#8b8b8b"
+OTHER_COLOR = "#4b5563"  # distinct from FALLBACK_COLOR so an unrecognized
+# top-6 language never renders identically to the aggregated "Other" slice
 
 BG_COLOR = "#0d1117"
 TITLE_COLOR = "#2d77dc"
@@ -306,11 +313,16 @@ def render_top_langs_card(language_bytes, max_langs=6):
 
     height = max(top_padding + 2 * outer_r + 25, legend_top + legend_height / 2 + 25)
 
+    def slice_color(name):
+        if name == "Other":
+            return OTHER_COLOR
+        return LANGUAGE_COLORS.get(name, FALLBACK_COLOR)
+
     wedges = []
     offset = 0.0
     for name, size in slices:
         pct = size / total * 100
-        color = LANGUAGE_COLORS.get(name, FALLBACK_COLOR)
+        color = slice_color(name)
         arc_len = pct / 100 * circumference
         wedges.append(
             f'<circle cx="{cx}" cy="{cy}" r="{path_r}" fill="none" stroke="{color}" '
@@ -322,7 +334,7 @@ def render_top_langs_card(language_bytes, max_langs=6):
     legend_rows = []
     for i, (name, size) in enumerate(slices):
         pct = size / total * 100
-        color = LANGUAGE_COLORS.get(name, FALLBACK_COLOR)
+        color = slice_color(name)
         y = legend_top + i * row_height
         legend_rows.append(f"""
     <rect x="{legend_x}" y="{y - 9}" width="12" height="12" rx="3" fill="{color}"/>
