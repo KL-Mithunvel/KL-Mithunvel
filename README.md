@@ -1,4 +1,7 @@
 # Hello World! I'm **Mithunvel KL** 🤠
+
+![Welcome banner](./assets/banner.svg)
+
 ### Mechatronics & Automation Engineer | Embedded Systems | Robotics | Industrial & Process Engineering
 
 - 🔭 Currently working on:
