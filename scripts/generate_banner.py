@@ -17,12 +17,14 @@ PHRASES = [
     "Take a look around!",
 ]
 
-FONT_SIZE = 20
-CHAR_WIDTH = 12  # forced via textLength, so this is exact, not a guess
-BASE_X = 20
-BASE_Y = 40
+FONT_SIZE = 22
+CHAR_WIDTH = 13  # forced via textLength, so this is exact, not a guess
+HORIZONTAL_MARGIN = 24  # min whitespace on either side of the longest phrase
+BASE_Y = 38  # ~= TOP_PADDING + font ascent, so top/bottom whitespace balance
 CARET_WIDTH = 3
 CARET_GAP = 4
+TOP_PADDING = 20
+BOTTOM_PADDING = 20
 
 PER_CHAR_TYPE = 0.09
 PER_CHAR_ERASE = 0.05
@@ -67,13 +69,30 @@ def pct(t, total):
     return round(t / total * 100, 4)
 
 
+def phrase_start_x(full, card_width):
+    """Centers the text+caret block of width (full + CARET_GAP + CARET_WIDTH)
+    within the card, so phrases of different lengths all sit on the same
+    visual center line instead of sharing one left-aligned x."""
+    content_width = full + CARET_GAP + CARET_WIDTH
+    return (card_width - content_width) / 2
+
+
 def render_reveal_keyframes(name, windows, total):
-    """One @keyframes per phrase: its clip-rect width goes 0 -> full -> full -> 0,
+    """One @keyframes per phrase: its clip-rect scales (scaleX) 0 -> 1 -> 1 -> 0,
     staying 0 for the rest of the cycle. steps() per keyframe segment gives the
-    per-character snap for both typing and erasing."""
+    per-character snap for both typing and erasing.
+
+    Deliberately animates `transform: scaleX()` rather than the `width`
+    attribute: CSS animation of raw geometry (width/x) on a <rect> that lives
+    inside a <clipPath> is not reliably repainted by browsers frame-to-frame
+    (clip geometry often isn't re-evaluated the way transforms are), which is
+    why the very first version of this banner rendered with no text visible
+    at all on GitHub. `transform` is part of the compositor pipeline and does
+    get re-evaluated every frame, including for clipPath children.
+    """
     blocks = []
     for i, w in enumerate(windows):
-        full = phrase_width(w["phrase"])
+        n = max(len(w["phrase"]), 1)
         stops = []
 
         start_p = pct(w["start"], total)
@@ -83,9 +102,9 @@ def render_reveal_keyframes(name, windows, total):
 
         if start_p > 0:
             stops.append((0, 0, None))
-        stops.append((start_p, 0, f"steps({max(len(w['phrase']), 1)})"))
-        stops.append((type_p, full, "linear"))
-        stops.append((hold_p, full, f"steps({max(len(w['phrase']), 1)})"))
+        stops.append((start_p, 0, f"steps({n})"))
+        stops.append((type_p, 1, "linear"))
+        stops.append((hold_p, 1, f"steps({n})"))
         stops.append((erase_p, 0, "linear"))
         if erase_p < 100:
             stops.append((100, 0, None))
@@ -93,39 +112,44 @@ def render_reveal_keyframes(name, windows, total):
         lines = []
         for p, val, timing in stops:
             tf = f" animation-timing-function: {timing};" if timing else ""
-            lines.append(f"      {p}% {{ width: {val}px;{tf} }}")
+            lines.append(f"      {p}% {{ transform: scaleX({val});{tf} }}")
 
         blocks.append(f"    @keyframes {name}-{i} {{\n" + "\n".join(lines) + "\n    }")
     return "\n".join(blocks)
 
 
-def render_caret_keyframes(windows, total):
+def render_caret_keyframes(windows, start_xs, total):
     """Single caret shared across all phrases: x tracks whichever phrase is
-    currently typing/erasing, resting at BASE_X during hold/gap."""
+    currently typing/erasing, resting at that phrase's (centered) start_x
+    during hold, and gliding to the next phrase's start_x during the gap
+    between phrases. The caret's own SVG x attribute is 0, so translateX()
+    values here are absolute positions, not offsets."""
     stops = []
+    rest_x = start_xs[0] - CARET_WIDTH
     if windows[0]["start"] > 0:
-        stops.append((0, 0, None))
+        stops.append((0, rest_x, None))
 
-    for w in windows:
+    for w, start_x in zip(windows, start_xs):
         full = phrase_width(w["phrase"])
+        base = start_x - CARET_WIDTH
         start_p = pct(w["start"], total)
         type_p = pct(w["type_end"], total)
         hold_p = pct(w["hold_end"], total)
         erase_p = pct(w["erase_end"], total)
         n = max(len(w["phrase"]), 1)
 
-        stops.append((start_p, 0, f"steps({n})"))
-        stops.append((type_p, full, "linear"))
-        stops.append((hold_p, full, f"steps({n})"))
-        stops.append((erase_p, 0, "linear"))
+        stops.append((start_p, base, f"steps({n})"))
+        stops.append((type_p, base + full, "linear"))
+        stops.append((hold_p, base + full, f"steps({n})"))
+        stops.append((erase_p, base, "linear"))
 
     if stops[-1][0] < 100:
-        stops.append((100, 0, None))
+        stops.append((100, rest_x, None))
 
     lines = []
     for p, val, timing in stops:
         tf = f" animation-timing-function: {timing};" if timing else ""
-        lines.append(f"      {p}% {{ transform: translateX({val}px);{tf} }}")
+        lines.append(f"      {p}% {{ transform: translateX({val:.2f}px);{tf} }}")
 
     return "    @keyframes caret-move {\n" + "\n".join(lines) + "\n    }"
 
@@ -154,25 +178,29 @@ def render_sparkles(count, area_width, area_height):
 def render_banner():
     windows, total = build_timeline()
     max_width = max(phrase_width(w["phrase"]) for w in windows)
-    card_width = BASE_X + max_width + CARET_GAP + CARET_WIDTH + 20
-    card_height = 64
+    card_width = max_width + CARET_GAP + CARET_WIDTH + 2 * HORIZONTAL_MARGIN
+    card_height = TOP_PADDING + FONT_SIZE + BOTTOM_PADDING
+
+    start_xs = [phrase_start_x(phrase_width(w["phrase"]), card_width) for w in windows]
 
     text_groups = []
-    for i, w in enumerate(windows):
+    for i, (w, start_x) in enumerate(zip(windows, start_xs)):
         clip_id = f"clip-{i}"
+        full = phrase_width(w["phrase"])
         text_groups.append(f"""
   <clipPath id="{clip_id}">
-    <rect x="{BASE_X}" y="0" height="{FONT_SIZE + 10}" class="reveal-{i}"/>
+    <rect x="{start_x:.2f}" y="0" width="{full}" height="{card_height}" class="reveal-{i}"
+          style="transform-box: fill-box; transform-origin: 0% 50%;"/>
   </clipPath>
-  <text x="{BASE_X}" y="{BASE_Y}" textLength="{phrase_width(w['phrase'])}" lengthAdjust="spacingAndGlyphs"
+  <text x="{start_x:.2f}" y="{BASE_Y}" textLength="{full}" lengthAdjust="spacingAndGlyphs"
         class="banner-text" clip-path="url(#{clip_id})">{escape(w['phrase'])}</text>""")
 
     reveal_css = render_reveal_keyframes("reveal", windows, total)
-    caret_css = render_caret_keyframes(windows, total)
+    caret_css = render_caret_keyframes(windows, start_xs, total)
     sparkles = render_sparkles(7, card_width, card_height)
 
     reveal_rules = "\n".join(
-        f"    .reveal-{i} {{ width: 0; animation: reveal-{i} {total:.3f}s linear infinite; }}"
+        f"    .reveal-{i} {{ transform: scaleX(0); animation: reveal-{i} {total:.3f}s linear infinite; }}"
         for i in range(len(windows))
     )
 
@@ -207,7 +235,7 @@ def render_banner():
   </style>
   {sparkles}
   {''.join(text_groups)}
-  <rect x="{BASE_X - CARET_WIDTH}" y="{BASE_Y - FONT_SIZE + 4}" width="{CARET_WIDTH}" height="{FONT_SIZE + 2}" class="caret"/>
+  <rect x="0" y="{BASE_Y - FONT_SIZE + 4}" width="{CARET_WIDTH}" height="{FONT_SIZE + 2}" class="caret"/>
 </svg>
 """
 
