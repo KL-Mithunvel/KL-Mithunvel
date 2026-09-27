@@ -77,6 +77,7 @@ def graphql(session, query, variables):
 USER_QUERY = """
 query($login: String!) {
   user(login: $login) {
+    id
     createdAt
     followers { totalCount }
   }
@@ -103,12 +104,31 @@ query($login: String!, $after: String) {
       totalCount
       pageInfo { hasNextPage endCursor }
       nodes {
+        name
+        owner { login }
         stargazerCount
         forkCount
         languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
           edges {
             size
             node { name color }
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
+COMMIT_HISTORY_QUERY = """
+query($owner: String!, $name: String!, $authorId: ID!, $after: String) {
+  repository(owner: $owner, name: $name) {
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          history(first: 100, after: $after, author: {id: $authorId}) {
+            nodes { authoredDate }
+            pageInfo { hasNextPage endCursor }
           }
         }
       }
@@ -153,6 +173,7 @@ def fetch_repo_stats(session, login):
     total_forks = 0
     repo_count = 0
     language_bytes = {}
+    repos_list = []
     after = None
 
     while True:
@@ -163,6 +184,7 @@ def fetch_repo_stats(session, login):
         for node in repos["nodes"]:
             total_stars += node["stargazerCount"]
             total_forks += node["forkCount"]
+            repos_list.append((node["owner"]["login"], node["name"]))
             for edge in node["languages"]["edges"]:
                 name = edge["node"]["name"]
                 language_bytes[name] = language_bytes.get(name, 0) + edge["size"]
@@ -177,7 +199,39 @@ def fetch_repo_stats(session, login):
         "total_stars": total_stars,
         "total_forks": total_forks,
         "language_bytes": language_bytes,
+        "repos": repos_list,
     }
+
+
+def fetch_commit_hour_histogram(session, login, author_id, repos):
+    """Buckets commit authored-times by hour of day (0-23), using each
+    commit's recorded local time (git preserves the author's UTC offset)."""
+    hour_counts = [0] * 24
+
+    for owner, name in repos:
+        after = None
+        while True:
+            data = graphql(
+                session,
+                COMMIT_HISTORY_QUERY,
+                {"owner": owner, "name": name, "authorId": author_id, "after": after},
+            )
+            repo = data["repository"]
+            target = repo["defaultBranchRef"]["target"] if repo and repo.get("defaultBranchRef") else None
+            if not target:
+                break
+
+            history = target["history"]
+            for node in history["nodes"]:
+                authored = dt.datetime.fromisoformat(node["authoredDate"].replace("Z", "+00:00"))
+                hour_counts[authored.hour] += 1
+
+            if history["pageInfo"]["hasNextPage"]:
+                after = history["pageInfo"]["endCursor"]
+            else:
+                break
+
+    return hour_counts
 
 
 def esc(text):
@@ -262,6 +316,57 @@ def render_top_langs_card(language_bytes, max_langs=8):
 """
 
 
+def render_commit_times_card(hour_counts):
+    total = sum(hour_counts)
+    max_count = max(hour_counts) or 1
+
+    chart_height = 130
+    top_padding = 60
+    bottom_padding = 35
+    height = top_padding + chart_height + bottom_padding
+
+    left_pad = 25
+    right_pad = 25
+    chart_width = CARD_WIDTH - left_pad - right_pad
+    bar_gap = 3
+    bar_width = (chart_width - bar_gap * 23) / 24
+
+    bars = []
+    for hour, count in enumerate(hour_counts):
+        bar_height = (count / max_count) * chart_height
+        x = left_pad + hour * (bar_width + bar_gap)
+        y = top_padding + (chart_height - bar_height)
+        bars.append(
+            f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_width:.1f}" height="{max(bar_height, 1):.1f}" '
+            f'rx="2" fill="{TITLE_COLOR}"/>'
+        )
+
+    baseline_y = top_padding + chart_height
+    label_hours = {0: "12am", 6: "6am", 12: "12pm", 18: "6pm", 23: "11pm"}
+    labels = []
+    for hour, label in label_hours.items():
+        x = left_pad + hour * (bar_width + bar_gap) + bar_width / 2
+        labels.append(
+            f'<text x="{x:.1f}" y="{baseline_y + 18}" text-anchor="middle" class="hour-label">{label}</text>'
+        )
+
+    return f"""<svg width="{CARD_WIDTH}" height="{height}" viewBox="0 0 {CARD_WIDTH} {height}" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .card-bg {{ fill: {BG_COLOR}; }}
+    .title {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TITLE_COLOR}; }}
+    .subtitle {{ font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: {SUBTEXT_COLOR}; }}
+    .hour-label {{ font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: {SUBTEXT_COLOR}; }}
+  </style>
+  <rect x="0.5" y="0.5" rx="8" width="{CARD_WIDTH - 1}" height="{height - 1}" class="card-bg" stroke="none"/>
+  <text x="25" y="35" class="title">Commit Times of Day</text>
+  <text x="{CARD_WIDTH - 25}" y="35" text-anchor="end" class="subtitle">{total:,} commits</text>
+  <line x1="{left_pad}" y1="{baseline_y}" x2="{CARD_WIDTH - right_pad}" y2="{baseline_y}" stroke="{BAR_TRACK_COLOR}" stroke-width="1"/>
+  {''.join(bars)}
+  {''.join(labels)}
+</svg>
+"""
+
+
 def main():
     username = os.environ.get("GH_USERNAME")
     if not username:
@@ -273,9 +378,11 @@ def main():
     user = fetch_user(session, username)
     contrib_totals = fetch_contribution_totals(session, username, user["createdAt"])
     repo_stats = fetch_repo_stats(session, username)
+    hour_counts = fetch_commit_hour_histogram(session, username, user["id"], repo_stats["repos"])
 
     stats_svg = render_stats_card(username, user["followers"]["totalCount"], contrib_totals, repo_stats)
     langs_svg = render_top_langs_card(repo_stats["language_bytes"])
+    commit_times_svg = render_commit_times_card(hour_counts)
 
     out_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
     os.makedirs(out_dir, exist_ok=True)
@@ -285,6 +392,9 @@ def main():
 
     with open(os.path.join(out_dir, "top-langs.svg"), "w", encoding="utf-8") as f:
         f.write(langs_svg)
+
+    with open(os.path.join(out_dir, "commit-times.svg"), "w", encoding="utf-8") as f:
+        f.write(commit_times_svg)
 
     print("Stats generated.")
 
