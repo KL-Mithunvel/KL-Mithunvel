@@ -12,6 +12,7 @@ Env vars:
 """
 
 import datetime as dt
+import math
 import os
 import sys
 
@@ -279,39 +280,68 @@ def render_stats_card(username, followers, contrib_totals, repo_stats):
 """
 
 
-def render_top_langs_card(language_bytes, max_langs=8):
+def render_top_langs_card(language_bytes, max_langs=6):
     total = sum(language_bytes.values()) or 1
-    top = sorted(language_bytes.items(), key=lambda kv: kv[1], reverse=True)[:max_langs]
+    ranked = sorted(language_bytes.items(), key=lambda kv: kv[1], reverse=True)
+    top = ranked[:max_langs]
+    other_size = sum(size for _, size in ranked[max_langs:])
+    slices = list(top)
+    if other_size > 0:
+        slices.append(("Other", other_size))
 
-    bar_height = 10
-    row_height = 38
-    top_padding = 65
-    height = top_padding + row_height * len(top) + 20
+    # Pure-SVG pie via a thick circle stroke: a circle of radius R/2 stroked
+    # with stroke-width R has its stroke span from the center out to R, so
+    # each dasharray segment renders as a full wedge rather than a ring.
+    outer_r = 68
+    path_r = outer_r / 2
+    circumference = 2 * math.pi * path_r
+    cx = 25 + outer_r
+    top_padding = 55
+    cy = top_padding + outer_r
 
-    bar_max_width = CARD_WIDTH - 50
+    row_height = 26
+    legend_x = cx + outer_r + 34
+    legend_height = row_height * len(slices)
+    legend_top = cy - legend_height / 2 + row_height / 2
 
-    rows = []
-    for i, (name, size) in enumerate(top):
+    height = max(top_padding + 2 * outer_r + 25, legend_top + legend_height / 2 + 25)
+
+    wedges = []
+    offset = 0.0
+    for name, size in slices:
         pct = size / total * 100
         color = LANGUAGE_COLORS.get(name, FALLBACK_COLOR)
-        y = top_padding + i * row_height
-        bar_width = max(bar_max_width * (size / total), 3)
-        rows.append(f"""
-    <text x="25" y="{y}" class="lang-label">{esc(name)}</text>
-    <text x="{CARD_WIDTH - 25}" y="{y}" text-anchor="end" class="lang-pct">{pct:.1f}%</text>
-    <rect x="25" y="{y + 8}" width="{bar_max_width}" height="{bar_height}" rx="5" fill="{BAR_TRACK_COLOR}"/>
-    <rect x="25" y="{y + 8}" width="{bar_width:.1f}" height="{bar_height}" rx="5" fill="{color}"/>""")
+        arc_len = pct / 100 * circumference
+        wedges.append(
+            f'<circle cx="{cx}" cy="{cy}" r="{path_r}" fill="none" stroke="{color}" '
+            f'stroke-width="{outer_r}" stroke-dasharray="{arc_len:.2f} {circumference:.2f}" '
+            f'stroke-dashoffset="-{offset:.2f}"/>'
+        )
+        offset += arc_len
 
-    return f"""<svg width="{CARD_WIDTH}" height="{height}" viewBox="0 0 {CARD_WIDTH} {height}" xmlns="http://www.w3.org/2000/svg">
+    legend_rows = []
+    for i, (name, size) in enumerate(slices):
+        pct = size / total * 100
+        color = LANGUAGE_COLORS.get(name, FALLBACK_COLOR)
+        y = legend_top + i * row_height
+        legend_rows.append(f"""
+    <rect x="{legend_x}" y="{y - 9}" width="12" height="12" rx="3" fill="{color}"/>
+    <text x="{legend_x + 20}" y="{y + 1}" class="lang-label">{esc(name)}</text>
+    <text x="{CARD_WIDTH - 25}" y="{y + 1}" text-anchor="end" class="lang-pct">{pct:.1f}%</text>""")
+
+    return f"""<svg width="{CARD_WIDTH}" height="{height:.0f}" viewBox="0 0 {CARD_WIDTH} {height:.0f}" xmlns="http://www.w3.org/2000/svg">
   <style>
     .card-bg {{ fill: {BG_COLOR}; }}
     .title {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TITLE_COLOR}; }}
     .lang-label {{ font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TEXT_COLOR}; }}
     .lang-pct {{ font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: {SUBTEXT_COLOR}; }}
   </style>
-  <rect x="0.5" y="0.5" rx="8" width="{CARD_WIDTH - 1}" height="{height - 1}" class="card-bg" stroke="none"/>
+  <rect x="0.5" y="0.5" rx="8" width="{CARD_WIDTH - 1}" height="{height - 1:.0f}" class="card-bg" stroke="none"/>
   <text x="25" y="35" class="title">Most Used Languages</text>
-  {''.join(rows)}
+  <g transform="rotate(-90 {cx} {cy})">
+    {''.join(wedges)}
+  </g>
+  {''.join(legend_rows)}
 </svg>
 """
 
