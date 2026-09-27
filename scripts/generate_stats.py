@@ -304,33 +304,23 @@ def render_top_langs_card(language_bytes, max_langs=6):
     # Pure-SVG pie via a thick circle stroke: a circle of radius R/2 stroked
     # with stroke-width R has its stroke span from the center out to R, so
     # each dasharray segment renders as a full wedge rather than a ring.
-    outer_r = 62
+    outer_r = 95
     path_r = outer_r / 2
     circumference = 2 * math.pi * path_r
-    cx = 25 + outer_r
+    cx = CARD_WIDTH / 2  # pie centered above the legend, not left-anchored
 
-    top_padding = 60
-    bottom_padding = 25
-    row_height = 24
-    swatch_gap = 10  # space between color swatch and label text
-    label_pct_gap = 24  # space between the longest label and the % column
-
-    legend_x = cx + outer_r + 36
+    top_padding = 55
+    pie_to_legend_gap = 34
+    row_height = 26
+    bottom_padding = 20
+    swatch_gap = 8
+    label_pct_gap = 14
     avg_char_px = 7.6  # rough width of the 14px sans-serif legend font
-    max_label_px = max(len(name) for name, _ in slices) * avg_char_px
-    pct_x = legend_x + 12 + swatch_gap + max_label_px + label_pct_gap
 
-    legend_height = row_height * len(slices)
+    cy = top_padding + outer_r
+    legend_start_y = cy + outer_r + pie_to_legend_gap
 
-    # Whichever of {pie, legend} is taller defines the content zone; the
-    # shorter one is then centered inside that same zone, so neither one
-    # can creep up past top_padding into the title or overflow the bottom.
-    content_height = max(2 * outer_r, legend_height)
-    content_center_y = top_padding + content_height / 2
-    height = top_padding + content_height + bottom_padding
-
-    cy = content_center_y
-    legend_top = content_center_y - legend_height / 2 + row_height / 2
+    height = legend_start_y + row_height * (len(slices) - 1) + row_height / 2 + bottom_padding
 
     wedges = []
     offset = 0.0
@@ -345,15 +335,25 @@ def render_top_langs_card(language_bytes, max_langs=6):
         )
         offset += arc_len
 
+    # Each row is centered under the pie as its own unit (swatch + label +
+    # percent), rather than aligned into left/right columns, since the row
+    # widths vary a lot between a short name like "C++" and a long one.
     legend_rows = []
     for i, (name, size) in enumerate(slices):
         pct = size / total * 100
         color = slice_color(name)
-        y = legend_top + i * row_height
+        pct_text = f"{pct:.1f}%"
+        label_w = len(name) * avg_char_px
+        pct_w = len(pct_text) * avg_char_px
+        row_w = 12 + swatch_gap + label_w + label_pct_gap + pct_w
+        row_x = cx - row_w / 2
+        label_x = row_x + 12 + swatch_gap
+        pct_x = label_x + label_w + label_pct_gap
+        y = legend_start_y + i * row_height
         legend_rows.append(f"""
-    <rect x="{legend_x}" y="{y - 9:.2f}" width="12" height="12" rx="3" fill="{color}"/>
-    <text x="{legend_x + 12 + swatch_gap}" y="{y + 1:.2f}" class="lang-label">{esc(name)}</text>
-    <text x="{pct_x:.2f}" y="{y + 1:.2f}" class="lang-pct">{pct:.1f}%</text>""")
+    <rect x="{row_x:.2f}" y="{y - 9:.2f}" width="12" height="12" rx="3" fill="{color}"/>
+    <text x="{label_x:.2f}" y="{y + 1:.2f}" class="lang-label">{esc(name)}</text>
+    <text x="{pct_x:.2f}" y="{y + 1:.2f}" class="lang-pct">{pct_text}</text>""")
 
     return f"""<svg width="{CARD_WIDTH}" height="{height:.0f}" viewBox="0 0 {CARD_WIDTH} {height:.0f}" xmlns="http://www.w3.org/2000/svg">
   <style>

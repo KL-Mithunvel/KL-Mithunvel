@@ -1,35 +1,35 @@
-<svg width="495" height="253" viewBox="0 0 495 253" xmlns="http://www.w3.org/2000/svg">
+<svg width="495" height="468" viewBox="0 0 495 468" xmlns="http://www.w3.org/2000/svg">
   <style>
     .card-bg { fill: #0d1117; }
     .title { font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #2d77dc; }
     .lang-label { font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffff; }
     .lang-pct { font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: #a1a1aa; }
   </style>
-  <rect x="0.5" y="0.5" rx="8" width="494" height="252" class="card-bg" stroke="none"/>
+  <rect x="0.5" y="0.5" rx="8" width="494" height="467" class="card-bg" stroke="none"/>
   <text x="25" y="35" class="title">Most Used Languages</text>
-  <g transform="rotate(-90 87 144.0)">
-    <circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#3572A5" stroke-width="62" stroke-dasharray="120.76 194.78" stroke-dashoffset="-0.00"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#DA5B0B" stroke-width="62" stroke-dasharray="45.93 194.78" stroke-dashoffset="-120.76"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#f34b7d" stroke-width="62" stroke-dasharray="6.17 194.78" stroke-dashoffset="-166.69"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#41b883" stroke-width="62" stroke-dasharray="6.17 194.78" stroke-dashoffset="-172.86"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#f1e05a" stroke-width="62" stroke-dasharray="3.68 194.78" stroke-dashoffset="-179.03"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#e34c26" stroke-width="62" stroke-dasharray="2.48 194.78" stroke-dashoffset="-182.71"/><circle cx="87" cy="144.00" r="31.0" fill="none" stroke="#4b5563" stroke-width="62" stroke-dasharray="9.59 194.78" stroke-dashoffset="-185.19"/>
+  <g transform="rotate(-90 247.5 150)">
+    <circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#3572A5" stroke-width="95" stroke-dasharray="185.03 298.45" stroke-dashoffset="-0.00"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#DA5B0B" stroke-width="95" stroke-dasharray="70.38 298.45" stroke-dashoffset="-185.03"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#f34b7d" stroke-width="95" stroke-dasharray="9.46 298.45" stroke-dashoffset="-255.41"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#41b883" stroke-width="95" stroke-dasharray="9.45 298.45" stroke-dashoffset="-264.87"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#f1e05a" stroke-width="95" stroke-dasharray="5.64 298.45" stroke-dashoffset="-274.32"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#e34c26" stroke-width="95" stroke-dasharray="3.80 298.45" stroke-dashoffset="-279.96"/><circle cx="247.5" cy="150.00" r="47.5" fill="none" stroke="#4b5563" stroke-width="95" stroke-dasharray="14.70 298.45" stroke-dashoffset="-283.75"/>
   </g>
   
-    <rect x="185" y="63.00" width="12" height="12" rx="3" fill="#3572A5"/>
-    <text x="207" y="73.00" class="lang-label">Python</text>
-    <text x="352.60" y="73.00" class="lang-pct">62.0%</text>
-    <rect x="185" y="87.00" width="12" height="12" rx="3" fill="#DA5B0B"/>
-    <text x="207" y="97.00" class="lang-label">Jupyter Notebook</text>
-    <text x="352.60" y="97.00" class="lang-pct">23.6%</text>
-    <rect x="185" y="111.00" width="12" height="12" rx="3" fill="#f34b7d"/>
-    <text x="207" y="121.00" class="lang-label">C++</text>
-    <text x="352.60" y="121.00" class="lang-pct">3.2%</text>
-    <rect x="185" y="135.00" width="12" height="12" rx="3" fill="#41b883"/>
-    <text x="207" y="145.00" class="lang-label">Vue</text>
-    <text x="352.60" y="145.00" class="lang-pct">3.2%</text>
-    <rect x="185" y="159.00" width="12" height="12" rx="3" fill="#f1e05a"/>
-    <text x="207" y="169.00" class="lang-label">JavaScript</text>
-    <text x="352.60" y="169.00" class="lang-pct">1.9%</text>
-    <rect x="185" y="183.00" width="12" height="12" rx="3" fill="#e34c26"/>
-    <text x="207" y="193.00" class="lang-label">HTML</text>
-    <text x="352.60" y="193.00" class="lang-pct">1.3%</text>
-    <rect x="185" y="207.00" width="12" height="12" rx="3" fill="#4b5563"/>
-    <text x="207" y="217.00" class="lang-label">Other</text>
-    <text x="352.60" y="217.00" class="lang-pct">4.9%</text>
+    <rect x="188.70" y="270.00" width="12" height="12" rx="3" fill="#3572A5"/>
+    <text x="208.70" y="280.00" class="lang-label">Python</text>
+    <text x="268.30" y="280.00" class="lang-pct">62.0%</text>
+    <rect x="150.70" y="296.00" width="12" height="12" rx="3" fill="#DA5B0B"/>
+    <text x="170.70" y="306.00" class="lang-label">Jupyter Notebook</text>
+    <text x="306.30" y="306.00" class="lang-pct">23.6%</text>
+    <rect x="203.90" y="322.00" width="12" height="12" rx="3" fill="#f34b7d"/>
+    <text x="223.90" y="332.00" class="lang-label">C++</text>
+    <text x="260.70" y="332.00" class="lang-pct">3.2%</text>
+    <rect x="203.90" y="348.00" width="12" height="12" rx="3" fill="#41b883"/>
+    <text x="223.90" y="358.00" class="lang-label">Vue</text>
+    <text x="260.70" y="358.00" class="lang-pct">3.2%</text>
+    <rect x="177.30" y="374.00" width="12" height="12" rx="3" fill="#f1e05a"/>
+    <text x="197.30" y="384.00" class="lang-label">JavaScript</text>
+    <text x="287.30" y="384.00" class="lang-pct">1.9%</text>
+    <rect x="200.10" y="400.00" width="12" height="12" rx="3" fill="#e34c26"/>
+    <text x="220.10" y="410.00" class="lang-label">HTML</text>
+    <text x="264.50" y="410.00" class="lang-pct">1.3%</text>
+    <rect x="196.30" y="426.00" width="12" height="12" rx="3" fill="#4b5563"/>
+    <text x="216.30" y="436.00" class="lang-label">Other</text>
+    <text x="268.30" y="436.00" class="lang-pct">4.9%</text>
 </svg>
