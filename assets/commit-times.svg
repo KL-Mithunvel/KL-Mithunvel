@@ -1,0 +1,14 @@
+<svg width="495" height="225" viewBox="0 0 495 225" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .card-bg { fill: #0d1117; }
+    .title { font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #2d77dc; }
+    .subtitle { font: 400 12px 'Segoe UI', Ubuntu, Sans-Serif; fill: #a1a1aa; }
+    .hour-label { font: 400 11px 'Segoe UI', Ubuntu, Sans-Serif; fill: #a1a1aa; }
+  </style>
+  <rect x="0.5" y="0.5" rx="8" width="494" height="224" class="card-bg" stroke="none"/>
+  <text x="25" y="35" class="title">Commit Times of Day</text>
+  <text x="470" y="35" text-anchor="end" class="subtitle">832 commits</text>
+  <line x1="25" y1="190" x2="470" y2="190" stroke="#21262d" stroke-width="1"/>
+  <rect x="25.0" y="181.7" width="15.7" height="8.3" rx="2" fill="#2d77dc"/><rect x="43.7" y="170.6" width="15.7" height="19.4" rx="2" fill="#2d77dc"/><rect x="62.3" y="161.0" width="15.7" height="29.0" rx="2" fill="#2d77dc"/><rect x="81.0" y="141.6" width="15.7" height="48.4" rx="2" fill="#2d77dc"/><rect x="99.7" y="159.6" width="15.7" height="30.4" rx="2" fill="#2d77dc"/><rect x="118.3" y="134.7" width="15.7" height="55.3" rx="2" fill="#2d77dc"/><rect x="137.0" y="162.3" width="15.7" height="27.7" rx="2" fill="#2d77dc"/><rect x="155.7" y="154.0" width="15.7" height="36.0" rx="2" fill="#2d77dc"/><rect x="174.3" y="140.2" width="15.7" height="49.8" rx="2" fill="#2d77dc"/><rect x="193.0" y="119.5" width="15.7" height="70.5" rx="2" fill="#2d77dc"/><rect x="211.7" y="113.9" width="15.7" height="76.1" rx="2" fill="#2d77dc"/><rect x="230.3" y="154.0" width="15.7" height="36.0" rx="2" fill="#2d77dc"/><rect x="249.0" y="138.8" width="15.7" height="51.2" rx="2" fill="#2d77dc"/><rect x="267.7" y="143.0" width="15.7" height="47.0" rx="2" fill="#2d77dc"/><rect x="286.3" y="133.3" width="15.7" height="56.7" rx="2" fill="#2d77dc"/><rect x="305.0" y="149.9" width="15.7" height="40.1" rx="2" fill="#2d77dc"/><rect x="323.7" y="115.3" width="15.7" height="74.7" rx="2" fill="#2d77dc"/><rect x="342.3" y="60.0" width="15.7" height="130.0" rx="2" fill="#2d77dc"/><rect x="361.0" y="126.4" width="15.7" height="63.6" rx="2" fill="#2d77dc"/><rect x="379.7" y="118.1" width="15.7" height="71.9" rx="2" fill="#2d77dc"/><rect x="398.3" y="145.7" width="15.7" height="44.3" rx="2" fill="#2d77dc"/><rect x="417.0" y="145.7" width="15.7" height="44.3" rx="2" fill="#2d77dc"/><rect x="435.7" y="159.6" width="15.7" height="30.4" rx="2" fill="#2d77dc"/><rect x="454.3" y="180.3" width="15.7" height="9.7" rx="2" fill="#2d77dc"/>
+  <text x="32.8" y="208" text-anchor="middle" class="hour-label">12am</text><text x="144.8" y="208" text-anchor="middle" class="hour-label">6am</text><text x="256.8" y="208" text-anchor="middle" class="hour-label">12pm</text><text x="368.8" y="208" text-anchor="middle" class="hour-label">6pm</text><text x="462.2" y="208" text-anchor="middle" class="hour-label">11pm</text>
+</svg>

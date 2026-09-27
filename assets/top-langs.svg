@@ -11,11 +11,11 @@
     <text x="25" y="65" class="lang-label">Python</text>
     <text x="470" y="65" text-anchor="end" class="lang-pct">61.9%</text>
     <rect x="25" y="73" width="445" height="10" rx="5" fill="#21262d"/>
-    <rect x="25" y="73" width="275.3" height="10" rx="5" fill="#3572A5"/>
+    <rect x="25" y="73" width="275.5" height="10" rx="5" fill="#3572A5"/>
     <text x="25" y="103" class="lang-label">Jupyter Notebook</text>
-    <text x="470" y="103" text-anchor="end" class="lang-pct">23.7%</text>
+    <text x="470" y="103" text-anchor="end" class="lang-pct">23.6%</text>
     <rect x="25" y="111" width="445" height="10" rx="5" fill="#21262d"/>
-    <rect x="25" y="111" width="105.3" height="10" rx="5" fill="#DA5B0B"/>
+    <rect x="25" y="111" width="105.2" height="10" rx="5" fill="#DA5B0B"/>
     <text x="25" y="141" class="lang-label">C++</text>
     <text x="470" y="141" text-anchor="end" class="lang-pct">3.2%</text>
     <rect x="25" y="149" width="445" height="10" rx="5" fill="#21262d"/>
