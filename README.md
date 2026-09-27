@@ -61,6 +61,4 @@ G-code programs for CNC machining and 3D printing, covering the mechanical end o
 |-------------|--------------|
 | ![GitHub Stats](./assets/stats.svg) | ![Top Languages](./assets/top-langs.svg) |
 
-![Commit Times of Day](./assets/commit-times.svg)
-
 </div>
