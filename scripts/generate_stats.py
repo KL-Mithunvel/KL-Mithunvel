@@ -309,18 +309,17 @@ def render_top_langs_card(language_bytes, max_langs=6):
     circumference = 2 * math.pi * path_r
     cx = CARD_WIDTH / 2  # pie centered above the legend, not left-anchored
 
-    top_padding = 55
+    top_padding = 65
     pie_to_legend_gap = 34
-    row_height = 26
+    row_height = 32
     bottom_padding = 20
-    swatch_gap = 8
-    label_pct_gap = 14
+    dot_r = 6
+    dot_text_gap = 10
+    col_gap = 50
     avg_char_px = 7.6  # rough width of the 14px sans-serif legend font
 
     cy = top_padding + outer_r
     legend_start_y = cy + outer_r + pie_to_legend_gap
-
-    height = legend_start_y + row_height * (len(slices) - 1) + row_height / 2 + bottom_padding
 
     wedges = []
     offset = 0.0
@@ -335,35 +334,41 @@ def render_top_langs_card(language_bytes, max_langs=6):
         )
         offset += arc_len
 
-    # Each row is centered under the pie as its own unit (swatch + label +
-    # percent), rather than aligned into left/right columns, since the row
-    # widths vary a lot between a short name like "C++" and a long one.
+    # Two-column legend grid: dot + "Name XX.XX%" as one line per item,
+    # split into two columns (first half / second half by rank), each
+    # column's dots lined up on their own fixed x.
+    items = [(name, size / total * 100, slice_color(name)) for name, size in slices]
+    rows_per_col = math.ceil(len(items) / 2)
+    columns = [items[:rows_per_col], items[rows_per_col:]]
+
+    def item_width(name, pct):
+        text = f"{esc(name)} {pct:.2f}%"
+        return 2 * dot_r + dot_text_gap + len(text) * avg_char_px
+
+    col_widths = [max((item_width(n, p) for n, p, _ in col), default=0) for col in columns]
+    total_width = col_widths[0] + (col_gap + col_widths[1] if columns[1] else 0)
+    start_x = cx - total_width / 2
+    col_x = [start_x, start_x + col_widths[0] + col_gap]
+
     legend_rows = []
-    for i, (name, size) in enumerate(slices):
-        pct = size / total * 100
-        color = slice_color(name)
-        pct_text = f"{pct:.1f}%"
-        label_w = len(name) * avg_char_px
-        pct_w = len(pct_text) * avg_char_px
-        row_w = 12 + swatch_gap + label_w + label_pct_gap + pct_w
-        row_x = cx - row_w / 2
-        label_x = row_x + 12 + swatch_gap
-        pct_x = label_x + label_w + label_pct_gap
-        y = legend_start_y + i * row_height
-        legend_rows.append(f"""
-    <rect x="{row_x:.2f}" y="{y - 9:.2f}" width="12" height="12" rx="3" fill="{color}"/>
-    <text x="{label_x:.2f}" y="{y + 1:.2f}" class="lang-label">{esc(name)}</text>
-    <text x="{pct_x:.2f}" y="{y + 1:.2f}" class="lang-pct">{pct_text}</text>""")
+    for col_i, col in enumerate(columns):
+        x = col_x[col_i]
+        for row_i, (name, pct, color) in enumerate(col):
+            y = legend_start_y + row_i * row_height
+            legend_rows.append(f"""
+    <circle cx="{x + dot_r:.2f}" cy="{y:.2f}" r="{dot_r}" fill="{color}"/>
+    <text x="{x + 2 * dot_r + dot_text_gap:.2f}" y="{y + 5:.2f}" class="lang-label">{esc(name)} {pct:.2f}%</text>""")
+
+    height = legend_start_y + row_height * (rows_per_col - 1) + row_height / 2 + bottom_padding
 
     return f"""<svg width="{CARD_WIDTH}" height="{height:.0f}" viewBox="0 0 {CARD_WIDTH} {height:.0f}" xmlns="http://www.w3.org/2000/svg">
   <style>
     .card-bg {{ fill: {BG_COLOR}; }}
-    .title {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TITLE_COLOR}; }}
-    .lang-label {{ font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TEXT_COLOR}; }}
-    .lang-pct {{ font: 400 14px 'Segoe UI', Ubuntu, Sans-Serif; fill: {SUBTEXT_COLOR}; }}
+    .title {{ font: 700 22px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TITLE_COLOR}; }}
+    .lang-label {{ font: 400 15px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TEXT_COLOR}; }}
   </style>
   <rect x="0.5" y="0.5" rx="8" width="{CARD_WIDTH - 1}" height="{height - 1:.0f}" class="card-bg" stroke="none"/>
-  <text x="25" y="35" class="title">Most Used Languages</text>
+  <text x="25" y="38" class="title">Most Used Languages</text>
   <g transform="rotate(-90 {cx} {cy})">
     {''.join(wedges)}
   </g>
