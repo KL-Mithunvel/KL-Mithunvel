@@ -1,6 +1,8 @@
 # Hello World! I'm **Mithunvel KL** 🤠
 
-![Welcome banner](./assets/banner.svg)
+<p align="center">
+  <img src="./assets/banner.svg" alt="Welcome banner">
+</p>
 
 ### Mechatronics & Automation Engineer | Embedded Systems | Robotics | Industrial & Process Engineering
 

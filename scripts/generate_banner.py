@@ -17,12 +17,15 @@ PHRASES = [
     "Take a look around!",
 ]
 
-FONT_SIZE = 20
-CHAR_WIDTH = 12  # forced via textLength, so this is exact, not a guess
-BASE_X = 20
-BASE_Y = 40
+FONT_SIZE = 22
+CHAR_WIDTH = 13  # forced via textLength, so this is exact, not a guess
+BASE_X = 24
+BASE_Y = 38  # ~= TOP_PADDING + font ascent, so top/bottom whitespace balance
 CARET_WIDTH = 3
 CARET_GAP = 4
+RIGHT_PADDING = 28
+TOP_PADDING = 20
+BOTTOM_PADDING = 20
 
 PER_CHAR_TYPE = 0.09
 PER_CHAR_ERASE = 0.05
@@ -68,12 +71,21 @@ def pct(t, total):
 
 
 def render_reveal_keyframes(name, windows, total):
-    """One @keyframes per phrase: its clip-rect width goes 0 -> full -> full -> 0,
+    """One @keyframes per phrase: its clip-rect scales (scaleX) 0 -> 1 -> 1 -> 0,
     staying 0 for the rest of the cycle. steps() per keyframe segment gives the
-    per-character snap for both typing and erasing."""
+    per-character snap for both typing and erasing.
+
+    Deliberately animates `transform: scaleX()` rather than the `width`
+    attribute: CSS animation of raw geometry (width/x) on a <rect> that lives
+    inside a <clipPath> is not reliably repainted by browsers frame-to-frame
+    (clip geometry often isn't re-evaluated the way transforms are), which is
+    why the very first version of this banner rendered with no text visible
+    at all on GitHub. `transform` is part of the compositor pipeline and does
+    get re-evaluated every frame, including for clipPath children.
+    """
     blocks = []
     for i, w in enumerate(windows):
-        full = phrase_width(w["phrase"])
+        n = max(len(w["phrase"]), 1)
         stops = []
 
         start_p = pct(w["start"], total)
@@ -83,9 +95,9 @@ def render_reveal_keyframes(name, windows, total):
 
         if start_p > 0:
             stops.append((0, 0, None))
-        stops.append((start_p, 0, f"steps({max(len(w['phrase']), 1)})"))
-        stops.append((type_p, full, "linear"))
-        stops.append((hold_p, full, f"steps({max(len(w['phrase']), 1)})"))
+        stops.append((start_p, 0, f"steps({n})"))
+        stops.append((type_p, 1, "linear"))
+        stops.append((hold_p, 1, f"steps({n})"))
         stops.append((erase_p, 0, "linear"))
         if erase_p < 100:
             stops.append((100, 0, None))
@@ -93,7 +105,7 @@ def render_reveal_keyframes(name, windows, total):
         lines = []
         for p, val, timing in stops:
             tf = f" animation-timing-function: {timing};" if timing else ""
-            lines.append(f"      {p}% {{ width: {val}px;{tf} }}")
+            lines.append(f"      {p}% {{ transform: scaleX({val});{tf} }}")
 
         blocks.append(f"    @keyframes {name}-{i} {{\n" + "\n".join(lines) + "\n    }")
     return "\n".join(blocks)
@@ -154,17 +166,19 @@ def render_sparkles(count, area_width, area_height):
 def render_banner():
     windows, total = build_timeline()
     max_width = max(phrase_width(w["phrase"]) for w in windows)
-    card_width = BASE_X + max_width + CARET_GAP + CARET_WIDTH + 20
-    card_height = 64
+    card_width = BASE_X + max_width + CARET_GAP + CARET_WIDTH + RIGHT_PADDING
+    card_height = TOP_PADDING + FONT_SIZE + BOTTOM_PADDING
 
     text_groups = []
     for i, w in enumerate(windows):
         clip_id = f"clip-{i}"
+        full = phrase_width(w["phrase"])
         text_groups.append(f"""
   <clipPath id="{clip_id}">
-    <rect x="{BASE_X}" y="0" height="{FONT_SIZE + 10}" class="reveal-{i}"/>
+    <rect x="{BASE_X}" y="0" width="{full}" height="{card_height}" class="reveal-{i}"
+          style="transform-box: fill-box; transform-origin: 0% 50%;"/>
   </clipPath>
-  <text x="{BASE_X}" y="{BASE_Y}" textLength="{phrase_width(w['phrase'])}" lengthAdjust="spacingAndGlyphs"
+  <text x="{BASE_X}" y="{BASE_Y}" textLength="{full}" lengthAdjust="spacingAndGlyphs"
         class="banner-text" clip-path="url(#{clip_id})">{escape(w['phrase'])}</text>""")
 
     reveal_css = render_reveal_keyframes("reveal", windows, total)
@@ -172,7 +186,7 @@ def render_banner():
     sparkles = render_sparkles(7, card_width, card_height)
 
     reveal_rules = "\n".join(
-        f"    .reveal-{i} {{ width: 0; animation: reveal-{i} {total:.3f}s linear infinite; }}"
+        f"    .reveal-{i} {{ transform: scaleX(0); animation: reveal-{i} {total:.3f}s linear infinite; }}"
         for i in range(len(windows))
     )
 
