@@ -5,7 +5,7 @@
     .lang-label { font: 400 15px 'Segoe UI', Ubuntu, Sans-Serif; fill: #ffffff; }
   </style>
   <rect x="0.5" y="0.5" rx="8" width="494" height="420" class="card-bg" stroke="none"/>
-  <text x="25" y="38" class="title">Most Used Languages</text>
+  <text x="25" y="38" class="title">Langs distribution in my repos</text>
   <g transform="rotate(-90 247.5 160)">
     <circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#3572A5" stroke-width="95" stroke-dasharray="185.03 298.45" stroke-dashoffset="-0.00"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#DA5B0B" stroke-width="95" stroke-dasharray="70.38 298.45" stroke-dashoffset="-185.03"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#f34b7d" stroke-width="95" stroke-dasharray="9.46 298.45" stroke-dashoffset="-255.41"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#41b883" stroke-width="95" stroke-dasharray="9.45 298.45" stroke-dashoffset="-264.87"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#f1e05a" stroke-width="95" stroke-dasharray="5.64 298.45" stroke-dashoffset="-274.32"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#e34c26" stroke-width="95" stroke-dasharray="3.80 298.45" stroke-dashoffset="-279.96"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#4b5563" stroke-width="95" stroke-dasharray="14.70 298.45" stroke-dashoffset="-283.75"/>
   </g>

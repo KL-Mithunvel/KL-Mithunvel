@@ -368,7 +368,7 @@ def render_top_langs_card(language_bytes, max_langs=6):
     .lang-label {{ font: 400 15px 'Segoe UI', Ubuntu, Sans-Serif; fill: {TEXT_COLOR}; }}
   </style>
   <rect x="0.5" y="0.5" rx="8" width="{CARD_WIDTH - 1}" height="{height - 1:.0f}" class="card-bg" stroke="none"/>
-  <text x="25" y="38" class="title">Most Used Languages</text>
+  <text x="25" y="38" class="title">Langs distribution in my repos</text>
   <g transform="rotate(-90 {cx} {cy})">
     {''.join(wedges)}
   </g>
