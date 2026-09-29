@@ -20,11 +20,11 @@
 
 ## 🛠️ Tech Stack
 
-**Languages:** Python • C++ • Verilog • Assembly • SQL • Bash • R • G-code
-
-**Hardware:** Raspberry Pi • Arduino • ESP32 • Jetson Nano • FPGA (Xilinx Arty S7) 
-
-**Software & Tools:** MATLAB • Git • Roboflow • KiCAD • SolidWorks • Onshape • Vivado • Webots • Jupyter Notebook • Docker • Flask • ROS 2 • OpenCV
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech-stack-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/tech-stack-light.svg">
+  <img src="./assets/tech-stack-light.svg" alt="Tech stack: Python, C++, Verilog, Assembly, SQL, Bash, R, G-code, Raspberry Pi, Arduino, ESP32, Jetson Nano, FPGA, MATLAB, Git, Roboflow, KiCAD, SolidWorks, Onshape, Vivado, Webots, Jupyter, Docker, Flask, ROS 2, OpenCV">
+</picture>
 
 ---
 
@@ -67,3 +67,11 @@ G-code programs for CNC machining and 3D printing, covering the mechanical end o
 | ![GitHub Stats](./assets/stats.svg) | ![Top Languages](./assets/top-langs.svg) |
 
 </div>
+
+---
+
+<p align="center">
+  <img src="./assets/baracktocat.jpg" alt="Baracktocat" width="120">
+  <br>
+  <sub>Thanks for stopping by! 🐙</sub>
+</p>
