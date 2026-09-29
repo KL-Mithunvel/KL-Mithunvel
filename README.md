@@ -73,7 +73,7 @@ G-code programs for CNC machining and 3D printing, covering the mechanical end o
 ---
 
 <p align="center">
-  <img src="./assets/baracktocat.jpg" alt="Baracktocat" width="120">
+  <img src="./assets/baracktocat.jpg" alt="Baracktocat" width="200">
   <br>
   <sub>Thanks for stopping by! 🐙</sub>
 </p>
