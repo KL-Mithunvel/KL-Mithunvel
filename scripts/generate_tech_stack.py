@@ -8,7 +8,9 @@ Real logos are Simple Icons (CC0, https://simpleicons.org) path data, copied
 in below so this script has no network dependency at generation time. A
 handful of tools have no available brand mark (removed from Simple Icons for
 trademark reasons, e.g. MATLAB/Xilinx/SolidWorks, or never had one, e.g.
-Verilog/G-code) - those render as plain monogram badges instead.
+Verilog/G-code) - those render as generic outline pictograms instead, using
+Tabler Icons (MIT, https://tabler.io/icons) path data in a neutral accent
+color rather than any company's actual logo mark.
 
 Two variants are produced because GitHub's own light/dark README image
 switching (the <picture><source media="(prefers-color-scheme: dark)"> trick)
@@ -22,10 +24,12 @@ Run manually whenever the stack list changes:
 import os
 
 # (title, kind, payload, hex)
-#   kind "icon" -> payload is a Simple Icons <path d="..."> string, hex is
-#                  the brand color the path is filled with.
-#   kind "mono" -> payload is a short (<=4 char) monogram, hex is unused
-#                  (monograms share one neutral color, set per theme below).
+#   kind "icon"    -> payload is a Simple Icons <path d="..."> string, filled
+#                     solid with hex, the tool's real brand color.
+#   kind "outline" -> payload is one or more Tabler Icons <path d="...">
+#                     strings (joined), stroked (not filled) with hex, a
+#                     neutral accent color picked for this generator, since
+#                     there is no official brand mark to color-match.
 
 PYTHON = "M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"
 CPLUSPLUS = "M22.394 6c-.167-.29-.398-.543-.652-.69L12.926.22c-.509-.294-1.34-.294-1.848 0L2.26 5.31c-.508.293-.923 1.013-.923 1.6v10.18c0 .294.104.62.271.91.167.29.398.543.652.69l8.816 5.09c.508.293 1.34.293 1.848 0l8.816-5.09c.254-.147.485-.4.652-.69.167-.29.27-.616.27-.91V6.91c.003-.294-.1-.62-.268-.91zM12 19.11c-3.92 0-7.109-3.19-7.109-7.11 0-3.92 3.19-7.11 7.11-7.11a7.133 7.133 0 016.156 3.553l-3.076 1.78a3.567 3.567 0 00-3.08-1.78A3.56 3.56 0 008.444 12 3.56 3.56 0 0012 15.555a3.57 3.57 0 003.08-1.778l3.078 1.78A7.135 7.135 0 0112 19.11zm7.11-6.715h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79zm2.962 0h-.79v.79h-.79v-.79h-.79v-.79h.79v-.79h.79v.79h.79z"
@@ -44,33 +48,47 @@ FLASK = "M10.773 2.878c-.013 1.434.322 4.624.445 5.734l-8.558 3.83c-.56-.959-.98
 ROS = "M2.807 0C1.353 0 .173 1.22.173 2.722c0 1.504 1.18 2.723 2.634 2.723 1.455 0 2.635-1.22 2.635-2.723S4.262 0 2.807 0zM12 0c-1.455 0-2.634 1.22-2.634 2.722 0 1.504 1.18 2.723 2.634 2.723 1.455 0 2.634-1.22 2.634-2.723S13.454 0 12 0zm9.193 0c-1.455 0-2.635 1.22-2.635 2.722 0 1.504 1.18 2.723 2.635 2.723 1.455 0 2.634-1.22 2.634-2.723S22.647 0 21.193 0zM2.807 9.277C1.353 9.277.173 10.497.173 12s1.18 2.722 2.634 2.722c1.455 0 2.635-1.219 2.635-2.722 0-1.504-1.18-2.723-2.635-2.723zm9.193 0c-1.455 0-2.634 1.22-2.634 2.723s1.18 2.722 2.634 2.722c1.455 0 2.634-1.219 2.634-2.722 0-1.504-1.18-2.723-2.634-2.723zm9.193 0c-1.455 0-2.635 1.22-2.635 2.723s1.18 2.722 2.635 2.722c1.455 0 2.634-1.219 2.634-2.722 0-1.504-1.18-2.723-2.634-2.723zM2.807 18.555c-1.454 0-2.634 1.22-2.634 2.722C.173 22.781 1.353 24 2.807 24c1.455 0 2.635-1.22 2.635-2.723s-1.18-2.722-2.635-2.722zm9.193 0c-1.455 0-2.634 1.22-2.634 2.722C9.366 22.781 10.546 24 12 24c1.455 0 2.634-1.22 2.634-2.723s-1.18-2.722-2.634-2.722zm9.193 0c-1.455 0-2.635 1.22-2.635 2.722 0 1.504 1.18 2.723 2.635 2.723 1.455 0 2.634-1.22 2.634-2.723s-1.18-2.722-2.634-2.722z"
 OPENCV = "M11.8992.8525C8.735.8525 6.17 3.4175 6.17 6.5817c0 2.102 1.1321 3.9398 2.8198 4.9366l1.6412-2.7849c.0411-.0699.0176-.1593-.0495-.2048-.6233-.4227-1.0328-1.137-1.0328-1.947 0-1.298 1.0524-2.3504 2.3505-2.3504 1.2981 0 2.3505 1.0524 2.3505 2.3505 0 .8098-.4095 1.5242-1.0328 1.947-.0671.0454-.0907.1348-.0495.2047l1.6414 2.785c1.6878-.9969 2.8199-2.8346 2.8199-4.9367 0-3.1642-2.5653-5.7292-5.7295-5.7292zm-6.17 10.8366C2.565 11.6891 0 14.2541 0 17.4183c0 3.1642 2.565 5.7292 5.7292 5.7292 3.1798 0 5.8074-2.6995 5.7275-5.8762H8.2313c-.0847 0-.1513.0717-.1519.1564-.0082 1.266-1.0644 2.3411-2.3502 2.3411-1.2981 0-2.3505-1.0524-2.3505-2.3505 0-1.2982 1.0524-2.3505 2.3505-2.3505.34 0 .663.0724.9547.2022.0713.0318.1566.0077.1962-.0595l1.6464-2.7935c-.8273-.4636-1.7815-.7279-2.7973-.7279zm15.4424.7614l-1.6366 2.7878c-.041.07-.0172.1594.05.2048.624.4217 1.0348 1.1354 1.0363 1.9452.0022 1.298-1.0483 2.352-2.3465 2.3542-1.298.0023-2.3523-1.0482-2.3545-2.3462-.0015-.8098.4068-1.5248 1.0294-1.9486.067-.0457.0905-.1353.0492-.2051l-1.6464-2.7818c-1.6859.9998-2.8146 2.8394-2.811 4.9415.0056 3.1641 2.575 5.7248 5.7393 5.7192 3.1641-.0054 5.7246-2.575 5.7192-5.7392-.0037-2.1022-1.139-3.938-2.8284-4.9318z"
 
+# Generic outline pictograms (Tabler Icons, MIT) for tools with no available
+# brand mark. Each icon's separate <path> elements are joined into one d
+# string since a single path can hold multiple "moveto" subpaths.
+WAVE_SQUARE = "M3 12h5v8h4v-16h4v8h5"
+BINARY = "M11 10v-5h-1m8 14v-5h-1 M15 5.5a.5 .5 0 0 1 .5 -.5h2a.5 .5 0 0 1 .5 .5v4a.5 .5 0 0 1 -.5 .5h-2a.5 .5 0 0 1 -.5 -.5l0 -4 M10 14.5a.5 .5 0 0 1 .5 -.5h2a.5 .5 0 0 1 .5 .5v4a.5 .5 0 0 1 -.5 .5h-2a.5 .5 0 0 1 -.5 -.5l0 -4 M6 10h.01m-.01 9h.01"
+DATABASE = "M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0 M4 6v6a8 3 0 0 0 16 0v-6 M4 12v6a8 3 0 0 0 16 0v-6"
+ROUTE = "M3 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0 M19 7a2 2 0 1 0 0 -4a2 2 0 0 0 0 4 M11 19h5.5a3.5 3.5 0 0 0 0 -7h-8a3.5 3.5 0 0 1 0 -7h4.5"
+CPU_2 = "M5 6a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -12 M8 10v-2h2m6 6v2h-2m-4 0h-2v-2m8 -4v-2h-2 M3 10h2 M3 14h2 M10 3v2 M14 3v2 M21 10h-2 M21 14h-2 M14 21v-2 M10 21v-2"
+CHART_LINE = "M4 19l16 0 M4 15l4 -6l4 2l4 -5l4 4"
+CUBE = "M21 16.008v-8.018a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.008c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0l7 -4.008c.619 -.355 1 -1.01 1 -1.718 M12 22v-10 M12 12l8.73 -5.04 M3.27 6.96l8.73 5.04"
+CLOUD_COMPUTING = "M6.657 16c-2.572 0 -4.657 -2.007 -4.657 -4.483c0 -2.475 2.085 -4.482 4.657 -4.482c.393 -1.762 1.794 -3.2 3.675 -3.773c1.88 -.572 3.956 -.193 5.444 1c1.488 1.19 2.162 3.007 1.77 4.769h.99c1.913 0 3.464 1.56 3.464 3.486c0 1.927 -1.551 3.487 -3.465 3.487h-11.878 M12 16v5 M16 16v4a1 1 0 0 0 1 1h4 M8 16v4a1 1 0 0 1 -1 1h-4"
+CIRCUIT_RESISTOR = "M2 12h2l2 -5l3 10l3 -10l3 10l3 -10l1.5 5h2.5"
+ROBOT = "M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4 M12 2v2 M9 12v9 M15 12v9 M5 16l4 -2 M15 14l4 2 M9 18h6 M10 8v.01 M14 8v.01"
+
 CATEGORIES = [
     ("Languages", [
         ("Python", "icon", PYTHON, "3776AB"),
         ("C++", "icon", CPLUSPLUS, "00599C"),
-        ("Verilog", "mono", "VL", None),
-        ("Assembly", "mono", "ASM", None),
-        ("SQL", "mono", "SQL", None),
+        ("Verilog", "outline", WAVE_SQUARE, "0e7490"),
+        ("Assembly", "outline", BINARY, "57606a"),
+        ("SQL", "outline", DATABASE, "b45309"),
         ("Bash", "icon", GNUBASH, "4EAA25"),
         ("R", "icon", R_LANG, "276DC3"),
-        ("G-code", "mono", "GC", None),
+        ("G-code", "outline", ROUTE, "7c3aed"),
     ]),
     ("Hardware", [
         ("Raspberry Pi", "icon", RASPBERRYPI, "A22846"),
         ("Arduino", "icon", ARDUINO, "00878F"),
         ("ESP32", "icon", ESPRESSIF, "E7352C"),
         ("Jetson Nano", "icon", NVIDIA, "76B900"),
-        ("FPGA", "mono", "FPGA", None),
+        ("FPGA", "outline", CPU_2, "0369a1"),
     ]),
     ("Software & Tools", [
-        ("MATLAB", "mono", "MAT", None),
+        ("MATLAB", "outline", CHART_LINE, "ea580c"),
         ("Git", "icon", GIT, "F03C2E"),
         ("Roboflow", "icon", ROBOFLOW, "6706CE"),
         ("KiCAD", "icon", KICAD, "314CB0"),
-        ("SolidWorks", "mono", "SW", None),
-        ("Onshape", "mono", "OS", None),
-        ("Vivado", "mono", "VVD", None),
-        ("Webots", "mono", "WB", None),
+        ("SolidWorks", "outline", CUBE, "dc2626"),
+        ("Onshape", "outline", CLOUD_COMPUTING, "0284c7"),
+        ("Vivado", "outline", CIRCUIT_RESISTOR, "4f46e5"),
+        ("Webots", "outline", ROBOT, "16a34a"),
         ("Jupyter", "icon", JUPYTER, "F37626"),
         ("Docker", "icon", DOCKER, "2496ED"),
         ("Flask", "icon", FLASK, "3BABC3"),
@@ -97,8 +115,6 @@ THEMES = {
         "label": "#24292f",
         "chip_bg": "#f6f8fa",
         "chip_border": "#d0d7de",
-        "mono_bg": "#8c959f",
-        "mono_text": "#ffffff",
     },
     "dark": {
         "bg": "#0d1117",
@@ -106,8 +122,6 @@ THEMES = {
         "label": "#e6edf3",
         "chip_bg": "#161b22",
         "chip_border": "#30363d",
-        "mono_bg": "#6e7681",
-        "mono_text": "#ffffff",
     },
 }
 
@@ -126,26 +140,23 @@ def wrap_label(label):
 def render_item(x, y, item, theme):
     name, kind, payload, hex_color = item
     cx = x + CHIP_SIZE / 2
-    cy = y + CHIP_SIZE / 2
     parts = ['<g>', f'<title>{esc(name)}</title>']
 
+    parts.append(
+        f'<rect x="{x}" y="{y}" width="{CHIP_SIZE}" height="{CHIP_SIZE}" rx="10" '
+        f'fill="{theme["chip_bg"]}" stroke="{theme["chip_border"]}" stroke-width="1"/>'
+    )
+    scale = (CHIP_SIZE - 2 * ICON_PAD) / 24
     if kind == "icon":
-        parts.append(
-            f'<rect x="{x}" y="{y}" width="{CHIP_SIZE}" height="{CHIP_SIZE}" rx="10" '
-            f'fill="{theme["chip_bg"]}" stroke="{theme["chip_border"]}" stroke-width="1"/>'
-        )
-        scale = (CHIP_SIZE - 2 * ICON_PAD) / 24
         parts.append(
             f'<g transform="translate({x + ICON_PAD:.2f} {y + ICON_PAD:.2f}) scale({scale:.4f})">'
             f'<path d="{payload}" fill="#{hex_color}"/></g>'
         )
     else:
-        font_size = 13 if len(payload) <= 2 else (11 if len(payload) == 3 else 9)
-        parts.append(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{CHIP_SIZE / 2}" fill="{theme["mono_bg"]}"/>')
         parts.append(
-            f'<text x="{cx:.2f}" y="{cy + font_size * 0.35:.2f}" '
-            f'text-anchor="middle" font-family="Segoe UI, Ubuntu, Sans-Serif" '
-            f'font-weight="700" font-size="{font_size}" fill="{theme["mono_text"]}">{esc(payload)}</text>'
+            f'<g transform="translate({x + ICON_PAD:.2f} {y + ICON_PAD:.2f}) scale({scale:.4f})">'
+            f'<path d="{payload}" fill="none" stroke="#{hex_color}" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round"/></g>'
         )
 
     lines = wrap_label(name)
