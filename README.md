@@ -20,11 +20,13 @@
 
 ## 🛠️ Tech Stack
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/tech-stack-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/tech-stack-light.svg">
-  <img src="./assets/tech-stack-light.svg" alt="Tech stack: Python, C++, Verilog, Assembly, SQL, Bash, R, G-code, Raspberry Pi, Arduino, ESP32, Jetson Nano, FPGA, MATLAB, Git, Roboflow, KiCAD, SolidWorks, Onshape, Vivado, Webots, Jupyter, Docker, Flask, ROS 2, OpenCV">
-</picture>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/tech-stack-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/tech-stack-light.svg">
+    <img src="./assets/tech-stack-light.svg" alt="Tech stack: Python, C++, Verilog, Assembly, SQL, Bash, R, G-code, Raspberry Pi, Arduino, ESP32, Jetson Nano, FPGA, MATLAB, Git, Roboflow, KiCAD, SolidWorks, Onshape, Vivado, Webots, Jupyter, Docker, Flask, ROS 2, OpenCV">
+  </picture>
+</p>
 
 ---
 
