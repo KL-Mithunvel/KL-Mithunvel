@@ -9,17 +9,17 @@
   <text x="25" y="35" class="title">KL-Mithunvel's GitHub Stats</text>
   
     <text x="25" y="70" class="stat-label">Total Stars:</text>
-    <text x="470" y="70" text-anchor="end" class="stat-value">71</text>
+    <text x="470" y="70" text-anchor="end" class="stat-value">70</text>
     <text x="25" y="104" class="stat-label">Total Commits:</text>
-    <text x="470" y="104" text-anchor="end" class="stat-value">845</text>
+    <text x="470" y="104" text-anchor="end" class="stat-value">846</text>
     <text x="25" y="138" class="stat-label">Total PRs:</text>
-    <text x="470" y="138" text-anchor="end" class="stat-value">38</text>
+    <text x="470" y="138" text-anchor="end" class="stat-value">36</text>
     <text x="25" y="172" class="stat-label">Total Issues:</text>
     <text x="470" y="172" text-anchor="end" class="stat-value">9</text>
     <text x="25" y="206" class="stat-label">PR Reviews:</text>
     <text x="470" y="206" text-anchor="end" class="stat-value">1</text>
     <text x="25" y="240" class="stat-label">Public Repos:</text>
-    <text x="470" y="240" text-anchor="end" class="stat-value">35</text>
+    <text x="470" y="240" text-anchor="end" class="stat-value">34</text>
     <text x="25" y="274" class="stat-label">Followers:</text>
     <text x="470" y="274" text-anchor="end" class="stat-value">10</text>
 </svg>
