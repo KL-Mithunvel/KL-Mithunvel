@@ -7,21 +7,21 @@
   <rect x="0.5" y="0.5" rx="8" width="494" height="420" class="card-bg" stroke="none"/>
   <text x="25" y="38" class="title">Langs distribution in my repos</text>
   <g transform="rotate(-90 247.5 160)">
-    <circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#3572A5" stroke-width="95" stroke-dasharray="207.99 298.45" stroke-dashoffset="-0.00"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#DA5B0B" stroke-width="95" stroke-dasharray="39.56 298.45" stroke-dashoffset="-207.99"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#f34b7d" stroke-width="95" stroke-dasharray="14.37 298.45" stroke-dashoffset="-247.55"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#e34c26" stroke-width="95" stroke-dasharray="14.11 298.45" stroke-dashoffset="-261.92"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#41b883" stroke-width="95" stroke-dasharray="5.55 298.45" stroke-dashoffset="-276.03"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#89e051" stroke-width="95" stroke-dasharray="4.53 298.45" stroke-dashoffset="-281.58"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#4b5563" stroke-width="95" stroke-dasharray="12.33 298.45" stroke-dashoffset="-286.12"/>
+    <circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#3572A5" stroke-width="95" stroke-dasharray="172.10 298.45" stroke-dashoffset="-0.00"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#e34c26" stroke-width="95" stroke-dasharray="64.85 298.45" stroke-dashoffset="-172.10"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#DA5B0B" stroke-width="95" stroke-dasharray="30.49 298.45" stroke-dashoffset="-236.95"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#f34b7d" stroke-width="95" stroke-dasharray="11.08 298.45" stroke-dashoffset="-267.44"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#41b883" stroke-width="95" stroke-dasharray="4.28 298.45" stroke-dashoffset="-278.52"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#89e051" stroke-width="95" stroke-dasharray="3.49 298.45" stroke-dashoffset="-282.80"/><circle cx="247.5" cy="160.00" r="47.5" fill="none" stroke="#4b5563" stroke-width="95" stroke-dasharray="12.15 298.45" stroke-dashoffset="-286.30"/>
   </g>
   
     <circle cx="77.30" cy="289.00" r="6" fill="#3572A5"/>
-    <text x="93.30" y="294.00" class="lang-label">Python 69.69%</text>
-    <circle cx="77.30" cy="321.00" r="6" fill="#DA5B0B"/>
-    <text x="93.30" y="326.00" class="lang-label">Jupyter Notebook 13.25%</text>
-    <circle cx="77.30" cy="353.00" r="6" fill="#f34b7d"/>
-    <text x="93.30" y="358.00" class="lang-label">C++ 4.82%</text>
-    <circle cx="77.30" cy="385.00" r="6" fill="#e34c26"/>
-    <text x="93.30" y="390.00" class="lang-label">HTML 4.73%</text>
+    <text x="93.30" y="294.00" class="lang-label">Python 57.67%</text>
+    <circle cx="77.30" cy="321.00" r="6" fill="#e34c26"/>
+    <text x="93.30" y="326.00" class="lang-label">HTML 21.73%</text>
+    <circle cx="77.30" cy="353.00" r="6" fill="#DA5B0B"/>
+    <text x="93.30" y="358.00" class="lang-label">Jupyter Notebook 10.22%</text>
+    <circle cx="77.30" cy="385.00" r="6" fill="#f34b7d"/>
+    <text x="93.30" y="390.00" class="lang-label">C++ 3.71%</text>
     <circle cx="324.10" cy="289.00" r="6" fill="#41b883"/>
-    <text x="340.10" y="294.00" class="lang-label">Vue 1.86%</text>
+    <text x="340.10" y="294.00" class="lang-label">Vue 1.43%</text>
     <circle cx="324.10" cy="321.00" r="6" fill="#89e051"/>
-    <text x="340.10" y="326.00" class="lang-label">Shell 1.52%</text>
+    <text x="340.10" y="326.00" class="lang-label">Shell 1.17%</text>
     <circle cx="324.10" cy="353.00" r="6" fill="#4b5563"/>
-    <text x="340.10" y="358.00" class="lang-label">Other 4.13%</text>
+    <text x="340.10" y="358.00" class="lang-label">Other 4.07%</text>
 </svg>
