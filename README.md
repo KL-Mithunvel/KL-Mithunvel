@@ -30,6 +30,16 @@
 
 ---
 
+## 🎏 My Koi
+
+<p align="center">
+  <img src="./koi/koi.gif" width="256" alt="My koi, redrawn every night from the day's GitHub activity">
+  <br>
+  <sub>Colored by my languages, grown by my contributions, and swimming according to yesterday's activity.</sub>
+</p>
+
+---
+
 ## 🔧 What I Build
 
 I work across the full hardware-software stack  from low-level digital logic and firmware to data pipelines and web dashboards. Here's a flavour of what I've worked on; you can find all of it in my repos.
